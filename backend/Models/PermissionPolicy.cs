@@ -1,0 +1,30 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using trial.Models;
+
+namespace trial.Models
+{
+    public class PermissionPolicy
+    {
+        [Key]
+        public int Id {get; set;}
+
+        [ForeignKey(nameof(Owner))]
+        public int OwnerId {get; set;}
+
+        public User? Owner {get; set;}
+
+        [ForeignKey(nameof(Guest))]
+        public int GuestId {get; set;}
+
+        public User? Guest {get; set;}
+
+        [ForeignKey(nameof(Note))]
+        public int NoteId {get; set;}
+
+        public Note? Note {get; set;}
+
+        [Required]
+        public PermissionType permissionType {get; set;} = PermissionType.View;
+    }
+}

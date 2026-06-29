@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using trial.utils;
+using trial.Models;
 
 namespace trial.Controllers
 {
@@ -17,6 +18,7 @@ namespace trial.Controllers
         // Static constructor to load notes only once
         static NotesController() {
             string persistedData = saver.Load();
+
             if (persistedData != ""){
                 var loadedNotes = JsonSerializer.Deserialize<List<Note>>(persistedData);
                 if (loadedNotes != null) {
@@ -101,10 +103,10 @@ namespace trial.Controllers
         }
     }
 
-    public class Note
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-    }
+    // public class Note
+    // {
+    //     public int Id { get; set; }
+    //     public string Title { get; set; }
+    //     public string Content { get; set; }
+    // }
 }
