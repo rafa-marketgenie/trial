@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text.Json;
 using trial.utils;
 using trial.Models;
+using trial.Services;
+using trial.Contracts.Notes;
 
 namespace trial.Controllers
 {
@@ -11,95 +13,52 @@ namespace trial.Controllers
     [Route("api/[controller]")]
     public class NotesController : ControllerBase
     {
-        // In-memory notes list for demo purposes
-        private static readonly List<Note> Notes = new List<Note>();
-        private static readonly Saver saver = new Saver("notesData.json");
+        private readonly INoteService _noteService;
 
-        // Static constructor to load notes only once
-        static NotesController() {
-            string persistedData = saver.Load();
-
-            if (persistedData != ""){
-                var loadedNotes = JsonSerializer.Deserialize<List<Note>>(persistedData);
-                if (loadedNotes != null) {
-                    Notes.AddRange(loadedNotes);
-                }
-            }
+        public NotesController(INoteService noteService)
+        {
+            _noteService = noteService;
         }
 
-        public NotesController() { }
-
         [HttpGet]
-        public ActionResult<IEnumerable<Note>> GetAll(string sortBy = "id", string sortOrder = "asc")
+        public async Task<ActionResult<IReadOnlyCollection<NoteResponseDto>>> GetAll()
         {
-            IEnumerable<Note> sortedNotes = Notes;
-
-            switch (sortBy.ToLower()) {
-                case "title":
-                    sortedNotes = (sortOrder == "desc") ? Notes.OrderByDescending(n => n.Title) : Notes.OrderBy(n => n.Title);
-                    break;
-                case "content":
-                    sortedNotes = (sortOrder == "desc") ? Notes.OrderByDescending(n => n.Content) : Notes.OrderBy(n => n.Content);
-                    break;
-                default:
-                    sortedNotes = (sortOrder == "desc") ? Notes.OrderByDescending(n => n.Id) : Notes.OrderBy(n => n.Id);
-                    break;
-            }
-
-            return Ok(sortedNotes);
+            var notes = await _noteService.GetAllNotesAsync();
+            return Ok(notes);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Note> GetById(int id)
+        public async Task<ActionResult<NoteResponseDto>> GetById(int id)
         {
-            var note = Notes.Find(n => n.Id == id);
+            var note = await _noteService.GetNoteByIdAsync(id);
             if (note == null) return NotFound();
             return Ok(note);
         }
 
-        [HttpPost]
-        public ActionResult<Note> Create(Note note)
+        [HttpGet("search")]
+        public async Task<ActionResult<IReadOnlyCollection<NoteResponseDto>>> Search([FromQuery] string query)
         {
-            // Console.WriteLine("Post");
-            note.Id = Notes.Count + 1;
-            Notes.Add(note); 
+            var notes = await _noteService.SearchNotesAsync(query);
+            return Ok(notes);
+        }
 
-            SaveData();
-
+        [HttpPost]
+        public async Task<ActionResult<NoteResponseDto>> Create([FromBody] CreateNoteRequestDto request)
+        {
+            // var actorUserId = HttpContext.GetUserId();
+            int actorUserId = 1; // TODO: replace with actual user ID from authentication context
+            var note = await _noteService.CreateNoteAsync(request, actorUserId);
             return CreatedAtAction(nameof(GetById), new { id = note.Id }, note);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, Note updatedNote)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateNoteRequestDto request)
         {
-            var note = Notes.Find(n => n.Id == id);
-            if (note == null) return NotFound();
-            note.Title = updatedNote.Title;
-            note.Content = updatedNote.Content;
-
-            SaveData();
-
+            // var actorUserId = HttpContext.GetUserId();
+            int actorUserId = 1; // TODO: replace with actual user ID from authentication context
+            var success = await _noteService.UpdateNoteAsync(id, request, actorUserId);
+            if (!success) return NotFound();
             return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            var note = Notes.Find(n => n.Id == id);
-            if (note == null) return NotFound();
-            Notes.Remove(note);
-
-            SaveData();
-
-            return NoContent();
-        }
-
-
-
-        private void SaveData()
-        {
-            string jsonData = JsonSerializer.Serialize(Notes);
-            saver.Save(jsonData);
         }
     }
 

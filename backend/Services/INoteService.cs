@@ -15,5 +15,7 @@ namespace trial.Services
         Task<bool> UpdateNoteAsync(int id, UpdateNoteRequestDto request, int actorUserId);
 
         Task<bool> DeleteNoteAsync(int id, int actorUserId);
+
+        Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(int userId);
     }
 }

@@ -46,11 +46,11 @@ namespace trial.Data
                 entity.HasOne(p => p.Owner)
                       .WithMany(u => u.GivenPermissions)
                       .HasForeignKey(p => p.OwnerId)
-                      .OnDelete(DeleteBehavior.Cascade);
+                      .OnDelete(DeleteBehavior.NoAction);
                 entity.HasOne(p => p.Guest)
                       .WithMany(u => u.ReceivedPermissions)
                       .HasForeignKey(p => p.GuestId)
-                      .OnDelete(DeleteBehavior.Cascade);
+                      .OnDelete(DeleteBehavior.NoAction);
                 entity.HasOne(p => p.Note)
                       .WithMany(n => n.PermissionPolicies)
                       .HasForeignKey(p => p.NoteId)

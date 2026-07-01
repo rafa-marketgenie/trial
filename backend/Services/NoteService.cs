@@ -8,13 +8,11 @@ namespace trial.Services
     {
         private readonly INoteRepository _noteRepository;
         private readonly INoteGroupRepository _noteGroupRepository;
-        private readonly IPermissionPolicyRepository _permissionPolicyRepository;
 
-        public NoteService(INoteRepository noteRepository, INoteGroupRepository noteGroupRepository, IPermissionPolicyRepository permissionPolicyRepository)
+        public NoteService(INoteRepository noteRepository, INoteGroupRepository noteGroupRepository)
         {
             _noteRepository = noteRepository;
             _noteGroupRepository = noteGroupRepository;
-            _permissionPolicyRepository = permissionPolicyRepository;
         }
 
         public async Task<IReadOnlyCollection<NoteResponseDto>> GetAllNotesAsync()
@@ -48,15 +46,12 @@ namespace trial.Services
 
         public async Task<IReadOnlyCollection<NoteResponseDto>> SearchNotesAsync(string? phrase)
         {
-            var notes = await _noteRepository.GetAllAsync();
-
-            if (!string.IsNullOrWhiteSpace(phrase))
+            if(string.IsNullOrWhiteSpace(phrase))
             {
-                notes = notes
-                    .Where(n => n.Content != null &&
-                                n.Content.Contains(phrase, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                return new List<NoteResponseDto>();
             }
+
+            var notes = await _noteRepository.SearchNotesByPhraseAsync(phrase);
 
             return notes.Select(n => new NoteResponseDto
             {
@@ -112,10 +107,9 @@ namespace trial.Services
             var note = await _noteRepository.GetByIdAsync(id);
             if (note == null) return false;
 
+            if (actorUserId != note.CreatedByUserId) return false;
+
             // TODO implement permissions
-            // Check if the actor has permission to update the note
-            // var hasPermission = await _permissionPolicyRepository.HasPermissionAsync(actorUserId, note.Id, "update");
-            // if (!hasPermission) return false;
 
             note.Title = request.Title ?? note.Title;
             note.Content = request.Content ?? note.Content;
@@ -130,13 +124,27 @@ namespace trial.Services
             var note = await _noteRepository.GetByIdAsync(id);
             if (note == null) return false;
 
+            if (actorUserId != note.CreatedByUserId) return false;
+
             // TODO implement permissions
-            // Check if the actor has permission to delete the note
-            // var hasPermission = await _permissionPolicyRepository.HasPermissionAsync(actorUserId, note.Id, "delete");
-            // if (!hasPermission) return false;
 
             await _noteRepository.DeleteAsync(note);
             return true;
+        }
+
+        public async Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(int userId)
+        {
+            var notes = await _noteRepository.GetNotesByCreatedByUserIdAsync(userId);
+            return notes.Select(n => new NoteResponseDto
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Content = n.Content,
+                CreatedAt = n.CreatedAt,
+                UpdatedAt = n.UpdatedAt,
+                GroupId = n.GroupId,
+                CreatedByUserId = n.CreatedByUserId
+            }).ToList();
         }
     }
 }

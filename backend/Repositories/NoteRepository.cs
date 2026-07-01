@@ -51,6 +51,25 @@ namespace trial.Repositories
             return await _context.Notes.AnyAsync(u => u.Id == id);
         }
 
-        
+        public async Task<IReadOnlyCollection<Note>> GetNotesByCreatedByUserIdAsync(int userId)
+        {
+            return await _context.Notes
+                .Where(n => n.CreatedByUserId == userId)
+                .ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<Note>> GetNotesByNoteGroupIdAsync(int noteGroupId)
+        {
+            return await _context.Notes
+                .Where(n => n.GroupId == noteGroupId)
+                .ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<Note>> SearchNotesByPhraseAsync(string phrase)
+        {
+            return await _context.Notes
+                .Where(n => n.Title.Contains(phrase) || n.Content.Contains(phrase))
+                .ToListAsync();
+        }
     }
 }
