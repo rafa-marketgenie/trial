@@ -13,7 +13,7 @@ namespace trial.Data
 
         public DbSet<NoteGroup> NoteGroups {get; set;} 
 
-        public DbSet<PermissionPolicy> permissionPolicies {get; set;}
+        public DbSet<PermissionPolicy> PermissionPolicies {get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
