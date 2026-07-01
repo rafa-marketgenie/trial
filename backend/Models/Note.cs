@@ -17,12 +17,16 @@ namespace trial.Models
         public string Content {get; set;} = string.Empty;
 
         [ForeignKey("NoteGroup")]
-        public int GroupId {get; set;}
+        public int? GroupId {get; set;}
 
         public NoteGroup? NoteGroup {get; set;}
 
         [ForeignKey("CreatedBy")]
         public int CreatedByUserId {get; set;}
+
+        public DateTime CreatedAt {get; set;} = DateTime.UtcNow;
+
+        public DateTime UpdatedAt {get; set;} = DateTime.UtcNow;
 
         public User? CreatedBy {get; set;}
 

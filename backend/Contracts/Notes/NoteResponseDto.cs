@@ -8,8 +8,12 @@ namespace trial.Contracts.Notes
 
         public string Content { get; set; } = string.Empty;
 
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
 
         public int CreatedByUserId { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
     }
 }

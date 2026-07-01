@@ -13,6 +13,6 @@ namespace trial.Contracts.Notes
         public string Content { get; set; } = string.Empty;
 
         [Range(1, int.MaxValue)]
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
     }
 }
