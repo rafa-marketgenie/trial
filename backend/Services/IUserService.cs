@@ -10,7 +10,7 @@ namespace trial.Services
 
         Task<UserResponseDto?> CreateUserAsync(CreateUserRequestDto request);
 
-        // Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request);
+        Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request);
 
         Task<bool> DeleteUserAsync(int id);
     }

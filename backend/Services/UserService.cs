@@ -66,10 +66,29 @@ namespace trial.Services
             };
         }
 
-        // public async Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request)
-        // {
+        public async Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+                return false;
             
-        // }
+            if (!string.IsNullOrEmpty(request.Username) && request.Username != user.Username)
+            {
+                if (await _userRepository.UsernameExistsAsync(request.Username))
+                    return false;
+                user.Username = request.Username;
+            }
+
+            if (!string.IsNullOrEmpty(request.Email) && request.Email != user.Email)
+            {
+                if (await _userRepository.EmailExistsAsync(request.Email))
+                    return false;
+                user.Email = request.Email;
+            }
+
+            await _userRepository.UpdateAsync(user);
+            return true;
+        }
 
         public async Task<bool> DeleteUserAsync(int id)
         {

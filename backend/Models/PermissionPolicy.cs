@@ -25,6 +25,6 @@ namespace trial.Models
         public Note? Note {get; set;}
 
         [Required]
-        public PermissionType permissionType {get; set;} = PermissionType.View;
+        public PermissionType PermissionType {get; set;} = PermissionType.View;
     }
 }
