@@ -35,6 +35,13 @@ namespace trial.Controllers
             return Ok(note);
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IReadOnlyCollection<NoteResponseDto>>> GetByUserId(int userId)
+        {
+            var notes = await _noteService.GetNotesByCreatedByUserIdAsync(userId);
+            return Ok(notes);
+        }
+
         [HttpGet("search")]
         public async Task<ActionResult<IReadOnlyCollection<NoteResponseDto>>> Search([FromQuery] string query)
         {
@@ -60,12 +67,15 @@ namespace trial.Controllers
             if (!success) return NotFound();
             return NoContent();
         }
-    }
 
-    // public class Note
-    // {
-    //     public int Id { get; set; }
-    //     public string Title { get; set; }
-    //     public string Content { get; set; }
-    // }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            // var actorUserId = HttpContext.GetUserId();
+            int actorUserId = 1; // TODO: replace with actual user ID from authentication context
+            var success = await _noteService.DeleteNoteAsync(id, actorUserId);
+            if (!success) return NotFound();
+            return NoContent();
+        }
+    }
 }

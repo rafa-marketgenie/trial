@@ -12,6 +12,6 @@ namespace trial.Services
 
         Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request);
 
-        Task<bool> DeleteUserAsync(int id);
+        Task<bool> DeleteUserAsync(int id, int actorUserId);
     }
 }

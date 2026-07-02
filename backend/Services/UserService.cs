@@ -16,10 +16,7 @@ namespace trial.Services
         public async Task<UserResponseDto?> GetUserByIdAsync(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
-            if (user == null)
-            {
-                return null;
-            }
+            if (user == null) return null;
 
             return new UserResponseDto
             {
@@ -90,8 +87,11 @@ namespace trial.Services
             return true;
         }
 
-        public async Task<bool> DeleteUserAsync(int id)
+        public async Task<bool> DeleteUserAsync(int id, int actorUserId)
         {
+            if (id != actorUserId)
+                return false;
+                
             var user = await _userRepository.GetByIdAsync(id);
             if(user == null) return false;
 

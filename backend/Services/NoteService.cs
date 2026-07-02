@@ -23,7 +23,10 @@ namespace trial.Services
                 Id = n.Id,
                 Title = n.Title,
                 Content = n.Content,
-                CreatedAt = n.CreatedAt
+                CreatedAt = n.CreatedAt,
+                UpdatedAt = n.UpdatedAt,
+                GroupId = n.GroupId,
+                CreatedByUserId = n.CreatedByUserId
             }).ToList();
         }
 

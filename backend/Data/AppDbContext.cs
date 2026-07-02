@@ -30,11 +30,11 @@ namespace trial.Data
                 entity.HasOne(n => n.CreatedBy)
                       .WithMany(u => u.Notes)
                       .HasForeignKey(n => n.CreatedByUserId)
-                      .OnDelete(DeleteBehavior.Restrict); // TODO check behav
+                      .OnDelete(DeleteBehavior.Restrict); 
                 // More?
                 entity.HasOne(n => n.NoteGroup)
                       .WithMany(g => g.GroupNotes)
-                      .HasForeignKey(n => n.GroupId); // TODO onDelete?
+                      .HasForeignKey(n => n.GroupId);
 
             });
             modelBuilder.Entity<NoteGroup>(entity =>
