@@ -182,3 +182,4 @@ C:\Users\rafae\Work\trial\backend\obj\Debug\net8.0\refint\trial.dll
 C:\Users\rafae\Work\trial\backend\obj\Debug\net8.0\trial.pdb
 C:\Users\rafae\Work\trial\backend\obj\Debug\net8.0\trial.genruntimeconfig.cache
 C:\Users\rafae\Work\trial\backend\obj\Debug\net8.0\ref\trial.dll
+C:\Users\rafae\Work\trial\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
