@@ -6,10 +6,13 @@ using trial.utils;
 using trial.Models;
 using trial.Services;
 using trial.Contracts.Notes;
+using Microsoft.AspNetCore.Authorization;
+using trial.Utils;
 
 namespace trial.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class NotesController : ControllerBase
     {
@@ -52,8 +55,7 @@ namespace trial.Controllers
         [HttpPost]
         public async Task<ActionResult<NoteResponseDto>> Create([FromBody] CreateNoteRequestDto request)
         {
-            // var actorUserId = HttpContext.GetUserId();
-            int actorUserId = 1; // TODO: replace with actual user ID from authentication context
+            int actorUserId = User.GetUserId();
             var note = await _noteService.CreateNoteAsync(request, actorUserId);
             return CreatedAtAction(nameof(GetById), new { id = note.Id }, note);
         }
@@ -61,8 +63,7 @@ namespace trial.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateNoteRequestDto request)
         {
-            // var actorUserId = HttpContext.GetUserId();
-            int actorUserId = 1; // TODO: replace with actual user ID from authentication context
+            int actorUserId = User.GetUserId();
             var success = await _noteService.UpdateNoteAsync(id, request, actorUserId);
             if (!success) return NotFound();
             return NoContent();
@@ -71,8 +72,7 @@ namespace trial.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // var actorUserId = HttpContext.GetUserId();
-            int actorUserId = 1; // TODO: replace with actual user ID from authentication context
+            int actorUserId = User.GetUserId();
             var success = await _noteService.DeleteNoteAsync(id, actorUserId);
             if (!success) return NotFound();
             return NoContent();

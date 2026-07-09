@@ -6,10 +6,14 @@ using trial.utils;
 using trial.Models;
 using trial.Services;
 using trial.Contracts.Users;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using trial.Utils;
 
 namespace trial.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
@@ -35,20 +39,36 @@ namespace trial.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<UserResponseDto>> Create([FromBody] CreateUserRequestDto request)
+        // [HttpPost]
+        // public async Task<ActionResult<UserResponseDto>> Create([FromBody] CreateUserRequestDto request)
+        // {
+        //     var user = await _userService.CreateUserAsync(request);
+        //     if (user == null) return BadRequest("Username or email already exists.");
+        //     return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+        // }
+        
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UserResponseDto>> Update(int id, [FromBody] UpdateUserRequestDto request)
         {
-            var user = await _userService.CreateUserAsync(request);
-            if (user == null) return BadRequest("Username or email already exists.");
-            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+            var actorUserId = User.GetUserId();
+
+            var updatedUser = await _userService.UpdateUserAsync(id, request, actorUserId);
+            if (updatedUser == false) return NotFound();
+            return Ok(updatedUser);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var actorUserId = 1; // TODO: replace with actual user ID from authentication context
+            var actorUserId = User.GetUserId();
+
             var success = await _userService.DeleteUserAsync(id, actorUserId);
-            if (!success) return NotFound();
+            
+            if (!success) 
+            {
+                return NotFound();
+            }
+            
             return NoContent();
         }
     }

@@ -1,4 +1,5 @@
 using trial.Contracts.Users;
+using trial.Models;
 
 namespace trial.Services
 {
@@ -8,9 +9,11 @@ namespace trial.Services
 
         Task<IReadOnlyCollection<UserSummaryDto>> GetAllUsersAsync();
 
-        Task<UserResponseDto?> CreateUserAsync(CreateUserRequestDto request);
+        Task<User?> CreateUserAsync(CreateUserRequestDto request);
 
-        Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request);
+        Task<User?> AuthenticateUserAsync(string username, string password);
+
+        Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request, int actorUserId);
 
         Task<bool> DeleteUserAsync(int id, int actorUserId);
     }

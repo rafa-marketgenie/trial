@@ -6,10 +6,12 @@ using trial.utils;
 using trial.Models;
 using trial.Services;
 using trial.Contracts.NoteGroups;
+using Microsoft.AspNetCore.Authorization;
 
 namespace trial.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class NoteGroupController : ControllerBase
     {

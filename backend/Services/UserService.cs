@@ -37,7 +37,7 @@ namespace trial.Services
             }).ToList();
         }
 
-        public async Task<UserResponseDto?> CreateUserAsync(CreateUserRequestDto request)
+        public async Task<User?> CreateUserAsync(CreateUserRequestDto request)
         {
             if (await _userRepository.UsernameExistsAsync(request.Username))
                 return null;
@@ -54,17 +54,24 @@ namespace trial.Services
             };
 
             await _userRepository.AddAsync(user);
-            return new UserResponseDto
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                CreatedAt = user.CreatedAt
-            };
+            return user;
         }
 
-        public async Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request)
+
+        public async Task<User?> AuthenticateUserAsync(string username, string password)
         {
+            var user = await _userRepository.GetByUsernameAsync(username);
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+                return null;
+
+            return user;
+        }
+
+        public async Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request, int actorUserId)
+        {
+            if (id != actorUserId)
+                return false;
+
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
                 return false;
