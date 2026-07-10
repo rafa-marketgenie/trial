@@ -55,7 +55,6 @@ namespace trial.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return NoContent();
             var success = await _noteGroupService.DeleteNoteGroupAsync(id);
             if (!success) return NotFound();
             return NoContent();

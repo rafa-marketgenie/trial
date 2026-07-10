@@ -19,14 +19,19 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>  
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    );
+);
 
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INoteGroupRepository, NoteGroupRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPermissionPolicyRepository, PermissionPolicyRepository>();
 
 builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<INoteGroupService, NoteGroupService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPermissionPolicyService, PermissionPolicyService>();
+
+builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
@@ -44,7 +49,6 @@ builder.Services.AddAuthentication("Bearer")
     });
 
 builder.Services.AddAuthorization();
-builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 

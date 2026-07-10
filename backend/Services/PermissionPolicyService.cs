@@ -4,11 +4,11 @@ using trial.Repositories;
 
 namespace trial.Services
 {
-    public class PermissionPoliciyService : IPermissionPolicyService
+    public class PermissionPolicyService : IPermissionPolicyService
     {
         private readonly IPermissionPolicyRepository _permissionPolicyRepository;
 
-        public PermissionPoliciyService(IPermissionPolicyRepository permissionPolicyRepository)
+        public PermissionPolicyService(IPermissionPolicyRepository permissionPolicyRepository)
         {
             _permissionPolicyRepository = permissionPolicyRepository;
         }
