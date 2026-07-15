@@ -22,8 +22,7 @@ namespace trial.Services
             return new PermissionPolicyResponseDto
             {
                 Id = policy.Id,
-                OwnerId = policy.OwnerId,
-                GuestId = policy.GuestId,
+                UserId = policy.UserId,
                 NoteId = policy.NoteId,
                 PermissionType = policy.PermissionType
             };
@@ -31,10 +30,11 @@ namespace trial.Services
 
         public async Task<PermissionPolicyResponseDto> GrantPermissionAsync(GrantPermissionRequestDto request, Guid actorUserId)
         {
+            // TODO implement verification
+
             var newPolicy = new PermissionPolicy
             {
-                OwnerId = actorUserId,
-                GuestId = request.GuestId,
+                UserId = request.UserId,
                 NoteId = request.NoteId,
                 PermissionType = request.PermissionType
             };
@@ -44,8 +44,7 @@ namespace trial.Services
             return new PermissionPolicyResponseDto
             {
                 Id = newPolicy.Id,
-                OwnerId = newPolicy.OwnerId,
-                GuestId = newPolicy.GuestId,
+                UserId = newPolicy.UserId,
                 NoteId = newPolicy.NoteId,
                 PermissionType = newPolicy.PermissionType
             };
@@ -55,6 +54,7 @@ namespace trial.Services
         {
             var existingPolicy = await _permissionPolicyRepository.GetByIdAsync(id);
             if (existingPolicy == null) return false;
+            // TODO implement verification
 
             existingPolicy.PermissionType = request.PermissionType;
 
@@ -66,6 +66,7 @@ namespace trial.Services
         {
             var existingPolicy = await _permissionPolicyRepository.GetByIdAsync(id);
             if (existingPolicy == null) return false;
+            // TODO implement verification
 
             await _permissionPolicyRepository.DeleteAsync(existingPolicy);
             return true;

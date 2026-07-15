@@ -43,20 +43,21 @@ namespace trial.Data
             });
             modelBuilder.Entity<PermissionPolicy>(entity =>
             {
-                entity.HasOne(p => p.Owner)
-                      .WithMany(u => u.GivenPermissions)
-                      .HasForeignKey(p => p.OwnerId)
-                      .OnDelete(DeleteBehavior.NoAction);
-                entity.HasOne(p => p.Guest)
+                // entity.HasOne(p => p.Owner)
+                //       .WithMany(u => u.GivenPermissions)
+                //       .HasForeignKey(p => p.OwnerId)
+                //       .OnDelete(DeleteBehavior.NoAction);
+                entity.HasOne(p => p.User)
                       .WithMany(u => u.ReceivedPermissions)
-                      .HasForeignKey(p => p.GuestId)
+                      .HasForeignKey(p => p.UserId)
                       .OnDelete(DeleteBehavior.NoAction);
                 entity.HasOne(p => p.Note)
                       .WithMany(n => n.PermissionPolicies)
                       .HasForeignKey(p => p.NoteId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasIndex(p => new { p.OwnerId, p.GuestId, p.NoteId })
+                // entity.HasIndex(p => new { p.OwnerId, p.GuestId, p.NoteId })
+                entity.HasIndex(p => new { p.UserId, p.NoteId })
                       .IsUnique();
             });
 

@@ -26,7 +26,7 @@ namespace trial.Models
         // Navigation property
         public ICollection<Note> Notes { get; set; } = new List<Note>();
 
-        public ICollection<PermissionPolicy> GivenPermissions {get; set;} = new List<PermissionPolicy>();
+        // public ICollection<PermissionPolicy> GivenPermissions {get; set;} = new List<PermissionPolicy>();
         public ICollection<PermissionPolicy> ReceivedPermissions {get; set;} = new List<PermissionPolicy>();
     }
 }

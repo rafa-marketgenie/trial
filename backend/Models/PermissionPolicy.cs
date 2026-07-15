@@ -9,15 +9,15 @@ namespace trial.Models
         [Key]
         public int Id {get; set;}
 
-        [ForeignKey(nameof(Owner))]
-        public Guid OwnerId {get; set;}
+        // [ForeignKey(nameof(Owner))]
+        // public Guid OwnerId {get; set;}
 
-        public User? Owner {get; set;}
+        // public User? Owner {get; set;}
 
-        [ForeignKey(nameof(Guest))]
-        public Guid GuestId {get; set;}
+        [ForeignKey(nameof(User))]
+        public Guid UserId {get; set;}
 
-        public User? Guest {get; set;}
+        public User? User {get; set;}
 
         [ForeignKey(nameof(Note))]
         public int NoteId {get; set;}

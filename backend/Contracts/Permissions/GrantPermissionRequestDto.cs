@@ -6,7 +6,7 @@ namespace trial.Contracts.Permissions
     public class GrantPermissionRequestDto
     {
         [Range(1, int.MaxValue)]
-        public Guid GuestId { get; set; }
+        public Guid UserId { get; set; }
 
         [Range(1, int.MaxValue)]
         public int NoteId { get; set; }
