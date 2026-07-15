@@ -9,7 +9,7 @@ namespace trial.Contracts.Permissions
         public Guid UserId { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int NoteId { get; set; }
+        public Guid NoteId { get; set; }
 
         [Required]
         public PermissionType PermissionType { get; set; } = PermissionType.View;

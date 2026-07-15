@@ -10,7 +10,7 @@ namespace trial.Contracts.Permissions
 
         public Guid UserId { get; set; }
 
-        public int NoteId { get; set; }
+        public Guid NoteId { get; set; }
 
         public PermissionType PermissionType { get; set; }
     }

@@ -6,15 +6,15 @@ namespace trial.Services
     {
         Task<IReadOnlyCollection<NoteResponseDto>> GetAllNotesAsync();
 
-        Task<NoteResponseDto?> GetNoteByIdAsync(int id);
+        Task<NoteResponseDto?> GetNoteByIdAsync(Guid id);
 
         Task<IReadOnlyCollection<NoteResponseDto>> SearchNotesAsync(string? phrase);
 
         Task<NoteResponseDto> CreateNoteAsync(CreateNoteRequestDto request, Guid actorUserId);
 
-        Task<bool> UpdateNoteAsync(int id, UpdateNoteRequestDto request, Guid actorUserId);
+        Task<bool> UpdateNoteAsync(Guid id, UpdateNoteRequestDto request, Guid actorUserId);
 
-        Task<bool> DeleteNoteAsync(int id, Guid actorUserId);
+        Task<bool> DeleteNoteAsync(Guid id, Guid actorUserId);
 
         Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(Guid userId);
     }

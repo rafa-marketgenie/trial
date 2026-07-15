@@ -24,11 +24,9 @@ namespace trial.Migrations
 
             modelBuilder.Entity("trial.Models.Note", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -91,8 +89,8 @@ namespace trial.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("NoteId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("NoteId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PermissionType")
                         .HasColumnType("int");

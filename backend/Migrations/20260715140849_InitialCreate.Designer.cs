@@ -12,7 +12,7 @@ using trial.Data;
 namespace trial.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260715110035_InitialCreate")]
+    [Migration("20260715140849_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,11 +27,9 @@ namespace trial.Migrations
 
             modelBuilder.Entity("trial.Models.Note", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -94,25 +92,20 @@ namespace trial.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("GuestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("NoteId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("OwnerId")
+                    b.Property<Guid>("NoteId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PermissionType")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("GuestId");
+                    b.HasKey("Id");
 
                     b.HasIndex("NoteId");
 
-                    b.HasIndex("OwnerId", "GuestId", "NoteId")
+                    b.HasIndex("UserId", "NoteId")
                         .IsUnique();
 
                     b.ToTable("PermissionPolicies");
@@ -171,29 +164,21 @@ namespace trial.Migrations
 
             modelBuilder.Entity("trial.Models.PermissionPolicy", b =>
                 {
-                    b.HasOne("trial.Models.User", "Guest")
-                        .WithMany("ReceivedPermissions")
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("trial.Models.Note", "Note")
                         .WithMany("PermissionPolicies")
                         .HasForeignKey("NoteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("trial.Models.User", "Owner")
-                        .WithMany("GivenPermissions")
-                        .HasForeignKey("OwnerId")
+                    b.HasOne("trial.Models.User", "User")
+                        .WithMany("ReceivedPermissions")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Guest");
-
                     b.Navigation("Note");
 
-                    b.Navigation("Owner");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("trial.Models.Note", b =>
@@ -208,8 +193,6 @@ namespace trial.Migrations
 
             modelBuilder.Entity("trial.Models.User", b =>
                 {
-                    b.Navigation("GivenPermissions");
-
                     b.Navigation("Notes");
 
                     b.Navigation("ReceivedPermissions");

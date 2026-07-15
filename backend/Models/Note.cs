@@ -7,7 +7,7 @@ namespace trial.Models
     public class Note
     {
         [Key]
-        public int Id {get; set;}
+        public Guid Id {get; set;}
 
         [StringLength(128)]
         public string Title {get; set;} = string.Empty;

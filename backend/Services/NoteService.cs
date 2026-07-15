@@ -30,7 +30,7 @@ namespace trial.Services
             }).ToList();
         }
 
-        public async Task<NoteResponseDto?> GetNoteByIdAsync(int id)
+        public async Task<NoteResponseDto?> GetNoteByIdAsync(Guid id)
         {
             var note = await _noteRepository.GetByIdAsync(id);
             if (note == null) return null;
@@ -105,12 +105,12 @@ namespace trial.Services
             };
         }
 
-        public async Task<bool> UpdateNoteAsync(int id, UpdateNoteRequestDto request, Guid actorUserId)
+        public async Task<bool> UpdateNoteAsync(Guid id, UpdateNoteRequestDto request, Guid actorUserId)
         {
             var note = await _noteRepository.GetByIdAsync(id);
             if (note == null) return false;
 
-
+            // TODO implement permission check
             if (actorUserId != note.CreatedByUserId) return false;
 
 
@@ -122,7 +122,7 @@ namespace trial.Services
             return true;
         }
 
-        public async Task<bool> DeleteNoteAsync(int id, Guid actorUserId)
+        public async Task<bool> DeleteNoteAsync(Guid id, Guid actorUserId)
         {
             var note = await _noteRepository.GetByIdAsync(id);
             if (note == null) return false;

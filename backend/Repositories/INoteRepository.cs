@@ -2,7 +2,7 @@ using trial.Models;
 
 namespace trial.Repositories
 {
-    public interface INoteRepository : IRepository<Note>
+    public interface INoteRepository : IRepository<Note, Guid>
     {
         public Task<IReadOnlyCollection<Note>> GetNotesByCreatedByUserIdAsync(Guid userId);
 

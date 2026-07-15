@@ -31,7 +31,7 @@ namespace trial.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<NoteResponseDto>> GetById(int id)
+        public async Task<ActionResult<NoteResponseDto>> GetById(Guid id)
         {
             var note = await _noteService.GetNoteByIdAsync(id);
             if (note == null) return NotFound();
@@ -61,7 +61,7 @@ namespace trial.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateNoteRequestDto request)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateNoteRequestDto request)
         {
             var actorUserId = User.GetUserId();
             var success = await _noteService.UpdateNoteAsync(id, request, actorUserId);
@@ -70,7 +70,7 @@ namespace trial.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var actorUserId = User.GetUserId();
             var success = await _noteService.DeleteNoteAsync(id, actorUserId);

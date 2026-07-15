@@ -20,7 +20,7 @@ namespace trial.Models
         public User? User {get; set;}
 
         [ForeignKey(nameof(Note))]
-        public int NoteId {get; set;}
+        public Guid NoteId {get; set;}
 
         public Note? Note {get; set;}
 

@@ -44,8 +44,7 @@ namespace trial.Migrations
                 name: "Notes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", maxLength: 25565, nullable: false),
                     GroupId = table.Column<int>(type: "int", nullable: true),
@@ -75,9 +74,8 @@ namespace trial.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GuestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NoteId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NoteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PermissionType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -90,13 +88,8 @@ namespace trial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PermissionPolicies_Users_GuestId",
-                        column: x => x.GuestId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_PermissionPolicies_Users_OwnerId",
-                        column: x => x.OwnerId,
+                        name: "FK_PermissionPolicies_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -112,19 +105,14 @@ namespace trial.Migrations
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionPolicies_GuestId",
-                table: "PermissionPolicies",
-                column: "GuestId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PermissionPolicies_NoteId",
                 table: "PermissionPolicies",
                 column: "NoteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionPolicies_OwnerId_GuestId_NoteId",
+                name: "IX_PermissionPolicies_UserId_NoteId",
                 table: "PermissionPolicies",
-                columns: new[] { "OwnerId", "GuestId", "NoteId" },
+                columns: new[] { "UserId", "NoteId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
