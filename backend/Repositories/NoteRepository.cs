@@ -51,7 +51,7 @@ namespace trial.Repositories
             return await _context.Notes.AnyAsync(u => u.Id == id);
         }
 
-        public async Task<IReadOnlyCollection<Note>> GetNotesByCreatedByUserIdAsync(int userId)
+        public async Task<IReadOnlyCollection<Note>> GetNotesByCreatedByUserIdAsync(Guid userId)
         {
             return await _context.Notes
                 .Where(n => n.CreatedByUserId == userId)

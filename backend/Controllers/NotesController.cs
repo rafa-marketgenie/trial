@@ -39,7 +39,7 @@ namespace trial.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IReadOnlyCollection<NoteResponseDto>>> GetByUserId(int userId)
+        public async Task<ActionResult<IReadOnlyCollection<NoteResponseDto>>> GetByUserId(Guid userId)
         {
             var notes = await _noteService.GetNotesByCreatedByUserIdAsync(userId);
             return Ok(notes);
@@ -55,7 +55,7 @@ namespace trial.Controllers
         [HttpPost]
         public async Task<ActionResult<NoteResponseDto>> Create([FromBody] CreateNoteRequestDto request)
         {
-            int actorUserId = User.GetUserId();
+            var actorUserId = User.GetUserId();
             var note = await _noteService.CreateNoteAsync(request, actorUserId);
             return CreatedAtAction(nameof(GetById), new { id = note.Id }, note);
         }
@@ -63,7 +63,7 @@ namespace trial.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateNoteRequestDto request)
         {
-            int actorUserId = User.GetUserId();
+            var actorUserId = User.GetUserId();
             var success = await _noteService.UpdateNoteAsync(id, request, actorUserId);
             if (!success) return NotFound();
             return NoContent();
@@ -72,7 +72,7 @@ namespace trial.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            int actorUserId = User.GetUserId();
+            var actorUserId = User.GetUserId();
             var success = await _noteService.DeleteNoteAsync(id, actorUserId);
             if (!success) return NotFound();
             return NoContent();

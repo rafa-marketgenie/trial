@@ -5,7 +5,7 @@ namespace trial.Services
 {
     public interface IUserService
     {
-        Task<UserResponseDto?> GetUserByIdAsync(int id);
+        Task<UserResponseDto?> GetUserByIdAsync(Guid id);
 
         Task<IReadOnlyCollection<UserSummaryDto>> GetAllUsersAsync();
 
@@ -13,8 +13,8 @@ namespace trial.Services
 
         Task<User?> AuthenticateUserAsync(string username, string password);
 
-        Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request, int actorUserId);
+        Task<bool> UpdateUserAsync(Guid id, UpdateUserRequestDto request, Guid actorUserId);
 
-        Task<bool> DeleteUserAsync(int id, int actorUserId);
+        Task<bool> DeleteUserAsync(Guid id, Guid actorUserId);
     }
 }

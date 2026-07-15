@@ -2,7 +2,7 @@ using trial.Models;
 
 namespace trial.Repositories
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IRepository<User, Guid>
     {
         Task<User?> GetByUsernameAsync(string username);
 

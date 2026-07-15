@@ -4,10 +4,10 @@ namespace trial.Utils
 {
     public static class ClaimsPrincipalExtensions
     {
-        public static int GetUserId(this ClaimsPrincipal user)
+        public static Guid GetUserId(this ClaimsPrincipal user)
         {
             var idClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (int.TryParse(idClaim, out int id))
+            if (Guid.TryParse(idClaim, out Guid id))
             {
                 return id;
             }

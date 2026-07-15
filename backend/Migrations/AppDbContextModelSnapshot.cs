@@ -38,8 +38,8 @@ namespace trial.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CreatedByUserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("GroupId")
                         .HasColumnType("int");
@@ -91,14 +91,14 @@ namespace trial.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("GuestId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("GuestId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("NoteId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PermissionType")
                         .HasColumnType("int");
@@ -117,11 +117,9 @@ namespace trial.Migrations
 
             modelBuilder.Entity("trial.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");

@@ -22,7 +22,7 @@ namespace trial.Models
         public NoteGroup? NoteGroup {get; set;}
 
         [ForeignKey("CreatedBy")]
-        public int CreatedByUserId {get; set;}
+        public Guid CreatedByUserId {get; set;}
 
         public DateTime CreatedAt {get; set;} = DateTime.UtcNow;
 

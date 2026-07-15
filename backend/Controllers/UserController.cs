@@ -32,7 +32,7 @@ namespace trial.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserResponseDto>> GetById(int id)
+        public async Task<ActionResult<UserResponseDto>> GetById(Guid id)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null) return NotFound();
@@ -48,7 +48,7 @@ namespace trial.Controllers
         // }
         
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserResponseDto>> Update(int id, [FromBody] UpdateUserRequestDto request)
+        public async Task<ActionResult<UserResponseDto>> Update(Guid id, [FromBody] UpdateUserRequestDto request)
         {
             var actorUserId = User.GetUserId();
 
@@ -58,7 +58,7 @@ namespace trial.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var actorUserId = User.GetUserId();
 

@@ -13,7 +13,7 @@ namespace trial.Services
             _userRepository = userRepository;
         }
 
-        public async Task<UserResponseDto?> GetUserByIdAsync(int id)
+        public async Task<UserResponseDto?> GetUserByIdAsync(Guid id)
         {
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null) return null;
@@ -67,7 +67,7 @@ namespace trial.Services
             return user;
         }
 
-        public async Task<bool> UpdateUserAsync(int id, UpdateUserRequestDto request, int actorUserId)
+        public async Task<bool> UpdateUserAsync(Guid id, UpdateUserRequestDto request, Guid actorUserId)
         {
             if (id != actorUserId)
                 return false;
@@ -94,7 +94,7 @@ namespace trial.Services
             return true;
         }
 
-        public async Task<bool> DeleteUserAsync(int id, int actorUserId)
+        public async Task<bool> DeleteUserAsync(Guid id, Guid actorUserId)
         {
             if (id != actorUserId)
                 return false;

@@ -2,9 +2,9 @@ using System.Linq.Expressions;
 
 namespace trial.Repositories
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T, TKey> where T : class
     {
-        Task<T?> GetByIdAsync(int id);
+        Task<T?> GetByIdAsync(TKey id);
 
         Task<IEnumerable<T>> GetAllAsync();
 
@@ -14,8 +14,12 @@ namespace trial.Repositories
 
         Task UpdateAsync(T entity);
 
-        Task DeleteAsync(T entiity);
+        Task DeleteAsync(T entity);
 
-        Task<bool> ExistsAsync(int id);
+        Task<bool> ExistsAsync(TKey id);
+    }
+
+    public interface IRepository<T> : IRepository<T, int> where T : class
+    {
     }
 }

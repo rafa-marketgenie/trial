@@ -10,7 +10,7 @@ namespace trial.Contracts.Notes
 
         public int? GroupId { get; set; }
 
-        public int CreatedByUserId { get; set; }
+        public Guid CreatedByUserId { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

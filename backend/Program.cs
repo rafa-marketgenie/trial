@@ -48,10 +48,10 @@ builder.Services.AddAuthentication("Bearer")
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            // ValidateIssuer = true,
-            // ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateAudience = true,
             ValidateLifetime = true,
-            // ValidateIssuerSigningKey = true,
+            ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["ApiSettings:Issuer"],
             ValidAudience = builder.Configuration["ApiSettings:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApiSettings:Secret"]))

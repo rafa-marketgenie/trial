@@ -6,9 +6,9 @@ namespace trial.Contracts.Permissions
     {
         public int Id { get; set; }
 
-        public int OwnerId { get; set; }
+        public Guid OwnerId { get; set; }
 
-        public int GuestId { get; set; }
+        public Guid GuestId { get; set; }
 
         public int NoteId { get; set; }
 

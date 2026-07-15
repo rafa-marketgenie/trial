@@ -13,10 +13,11 @@ namespace trial.Services
             _permissionPolicyRepository = permissionPolicyRepository;
         }
 
-        public async Task<PermissionPolicyResponseDto?> GetPermissionPolicyAsync(int id, int actorUserId)
+        public async Task<PermissionPolicyResponseDto?> GetPermissionPolicyAsync(int id, Guid actorUserId)
         {
             var policy = await _permissionPolicyRepository.GetByIdAsync(id);
             if(policy == null) return null;
+            // TODO implement verification
 
             return new PermissionPolicyResponseDto
             {
@@ -28,7 +29,7 @@ namespace trial.Services
             };
         }
 
-        public async Task<PermissionPolicyResponseDto> GrantPermissionAsync(GrantPermissionRequestDto request, int actorUserId)
+        public async Task<PermissionPolicyResponseDto> GrantPermissionAsync(GrantPermissionRequestDto request, Guid actorUserId)
         {
             var newPolicy = new PermissionPolicy
             {
@@ -50,7 +51,7 @@ namespace trial.Services
             };
         }
 
-        public async Task<bool> UpdatePermissionPolicyAsync(int id, UpdatePermissionRequestDto request, int actorUserId)
+        public async Task<bool> UpdatePermissionPolicyAsync(int id, UpdatePermissionRequestDto request, Guid actorUserId)
         {
             var existingPolicy = await _permissionPolicyRepository.GetByIdAsync(id);
             if (existingPolicy == null) return false;
@@ -61,7 +62,7 @@ namespace trial.Services
             return true;
         }
 
-        public async Task<bool> DeletePermissionPolicyAsync(int id, int actorUserId)
+        public async Task<bool> DeletePermissionPolicyAsync(int id, Guid actorUserId)
         {
             var existingPolicy = await _permissionPolicyRepository.GetByIdAsync(id);
             if (existingPolicy == null) return false;

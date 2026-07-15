@@ -68,7 +68,7 @@ namespace trial.Services
             }).ToList();
         }
 
-        public async Task<NoteResponseDto> CreateNoteAsync(CreateNoteRequestDto request, int actorUserId)
+        public async Task<NoteResponseDto> CreateNoteAsync(CreateNoteRequestDto request, Guid actorUserId)
         {
             NoteGroup? noteGroup = null;
 
@@ -105,14 +105,14 @@ namespace trial.Services
             };
         }
 
-        public async Task<bool> UpdateNoteAsync(int id, UpdateNoteRequestDto request, int actorUserId)
+        public async Task<bool> UpdateNoteAsync(int id, UpdateNoteRequestDto request, Guid actorUserId)
         {
             var note = await _noteRepository.GetByIdAsync(id);
             if (note == null) return false;
 
+
             if (actorUserId != note.CreatedByUserId) return false;
 
-            // TODO implement permissions
 
             note.Title = request.Title ?? note.Title;
             note.Content = request.Content ?? note.Content;
@@ -122,20 +122,19 @@ namespace trial.Services
             return true;
         }
 
-        public async Task<bool> DeleteNoteAsync(int id, int actorUserId)
+        public async Task<bool> DeleteNoteAsync(int id, Guid actorUserId)
         {
             var note = await _noteRepository.GetByIdAsync(id);
             if (note == null) return false;
 
             if (actorUserId != note.CreatedByUserId) return false;
 
-            // TODO implement permissions
 
             await _noteRepository.DeleteAsync(note);
             return true;
         }
 
-        public async Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(int userId)
+        public async Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(Guid userId)
         {
             var notes = await _noteRepository.GetNotesByCreatedByUserIdAsync(userId);
             return notes.Select(n => new NoteResponseDto

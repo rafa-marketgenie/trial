@@ -4,12 +4,12 @@ namespace trial.Services
 {
     public interface IPermissionPolicyService
     {
-        Task<PermissionPolicyResponseDto?> GetPermissionPolicyAsync(int id, int actorUserId);
+        Task<PermissionPolicyResponseDto?> GetPermissionPolicyAsync(int id, Guid actorUserId);
 
-        Task<PermissionPolicyResponseDto> GrantPermissionAsync(GrantPermissionRequestDto request, int actorUserId);
+        Task<PermissionPolicyResponseDto> GrantPermissionAsync(GrantPermissionRequestDto request, Guid actorUserId);
 
-        Task<bool> UpdatePermissionPolicyAsync(int id, UpdatePermissionRequestDto request, int actorUserId);
+        Task<bool> UpdatePermissionPolicyAsync(int id, UpdatePermissionRequestDto request, Guid actorUserId);
 
-        Task<bool> DeletePermissionPolicyAsync(int id, int actorUserId);
+        Task<bool> DeletePermissionPolicyAsync(int id, Guid actorUserId);
     }
 }

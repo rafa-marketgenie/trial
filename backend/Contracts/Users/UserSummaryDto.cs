@@ -2,7 +2,7 @@ namespace trial.Contracts.Users
 {
     public class UserSummaryDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Username { get; set; } = string.Empty;
 

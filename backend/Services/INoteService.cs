@@ -10,12 +10,12 @@ namespace trial.Services
 
         Task<IReadOnlyCollection<NoteResponseDto>> SearchNotesAsync(string? phrase);
 
-        Task<NoteResponseDto> CreateNoteAsync(CreateNoteRequestDto request, int actorUserId);
+        Task<NoteResponseDto> CreateNoteAsync(CreateNoteRequestDto request, Guid actorUserId);
 
-        Task<bool> UpdateNoteAsync(int id, UpdateNoteRequestDto request, int actorUserId);
+        Task<bool> UpdateNoteAsync(int id, UpdateNoteRequestDto request, Guid actorUserId);
 
-        Task<bool> DeleteNoteAsync(int id, int actorUserId);
+        Task<bool> DeleteNoteAsync(int id, Guid actorUserId);
 
-        Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(int userId);
+        Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(Guid userId);
     }
 }

@@ -29,8 +29,7 @@ namespace trial.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -50,7 +49,7 @@ namespace trial.Migrations
                     Title = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", maxLength: 25565, nullable: false),
                     GroupId = table.Column<int>(type: "int", nullable: true),
-                    CreatedByUserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -76,8 +75,8 @@ namespace trial.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OwnerId = table.Column<int>(type: "int", nullable: false),
-                    GuestId = table.Column<int>(type: "int", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GuestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NoteId = table.Column<int>(type: "int", nullable: false),
                     PermissionType = table.Column<int>(type: "int", nullable: false)
                 },
