@@ -13,5 +13,11 @@ namespace trial.Utils
             }
             throw new UnauthorizedAccessException("User ID claim is missing or invalid.");
         }
+
+        public static bool CheckNotePermission(this ClaimsPrincipal user, Guid noteId)
+        {
+            var accessibleNotes = user.FindAll("accessible_notes").Select(c => c.Value);
+            return accessibleNotes.Contains(noteId.ToString());
+        }
     }
 }

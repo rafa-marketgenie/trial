@@ -13,11 +13,13 @@ namespace trial.Controllers
     {
         private readonly TokenService _tokenService;
         private readonly IUserService _userService;
+        private readonly IPermissionPolicyService _permissionPolicyService;
 
-        public AuthController(TokenService tokenService, IUserService userService)
+        public AuthController(TokenService tokenService, IUserService userService, IPermissionPolicyService permissionPolicyService)
         {
             _tokenService = tokenService;
             _userService = userService;
+            _permissionPolicyService = permissionPolicyService;
         }
 
         [HttpPost("login")]
@@ -28,7 +30,10 @@ namespace trial.Controllers
             if (user == null)
                 return Unauthorized("Invalid credentials");
 
-            var token = _tokenService.GenerateToken(user);
+            var accesibleNoteIds = await _permissionPolicyService.GetAccessibleNoteIdsAsync(user.Id);
+            // var accesibleNoteIds = new List<Guid>();
+
+            var token = _tokenService.GenerateToken(user, accesibleNoteIds);
 
             return Ok(new { token });
         }
@@ -41,7 +46,7 @@ namespace trial.Controllers
             if (user == null)
                 return BadRequest("User registration failed");
 
-            var token = _tokenService.GenerateToken(user);
+            var token = _tokenService.GenerateToken(user, new List<Guid>());
 
             return Ok(new { token });
         }

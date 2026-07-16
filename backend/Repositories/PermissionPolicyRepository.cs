@@ -51,6 +51,15 @@ namespace trial.Repositories
             return await _context.PermissionPolicies.AnyAsync(u => u.Id == id);
         }
 
-        
+        public async Task<IEnumerable<Guid>> GetAccessibleNotesByUserIdAsync(Guid userId)
+        {
+            return await _context.Notes
+                .Where(n => 
+                    n.CreatedByUserId == userId ||
+                    n.PermissionPolicies.Any(p => p.UserId == userId)
+                )
+                .Select(n => n.Id)
+                .ToListAsync();
+        }
     }
 }

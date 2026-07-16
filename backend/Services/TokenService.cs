@@ -22,13 +22,21 @@ namespace trial.Services
             _accessTokenExpiryMinutes = _config.GetValue<int>("ApiSettings:AccessTokenExpiryMinutes", 60);
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(User user, IEnumerable<Guid> accessibleNoteIds)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username)
             };
+
+            if (accessibleNoteIds != null && accessibleNoteIds.Any())
+            {
+                foreach (var noteId in accessibleNoteIds)
+                {
+                    claims.Add(new Claim("accessible_notes", noteId.ToString()));
+                }
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

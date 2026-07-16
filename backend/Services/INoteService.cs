@@ -16,6 +16,6 @@ namespace trial.Services
 
         Task<bool> DeleteNoteAsync(Guid id, Guid actorUserId);
 
-        Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(Guid userId);
+        Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(Guid userId, Guid actorUserId);
     }
 }

@@ -71,5 +71,12 @@ namespace trial.Services
             await _permissionPolicyRepository.DeleteAsync(existingPolicy);
             return true;
         }
+
+        public async Task<IEnumerable<Guid>> GetAccessibleNoteIdsAsync(Guid userId)
+        {
+            var accessibleNoteIds = await _permissionPolicyRepository.GetAccessibleNotesByUserIdAsync(userId);
+
+            return accessibleNoteIds;
+        }
     }
 }

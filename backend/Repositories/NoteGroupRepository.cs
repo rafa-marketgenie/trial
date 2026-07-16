@@ -50,7 +50,5 @@ namespace trial.Repositories
         {
             return await _context.NoteGroups.AnyAsync(u => u.Id == id);
         }
-
-        
     }
 }

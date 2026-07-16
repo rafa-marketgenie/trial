@@ -11,5 +11,7 @@ namespace trial.Services
         Task<bool> UpdatePermissionPolicyAsync(int id, UpdatePermissionRequestDto request, Guid actorUserId);
 
         Task<bool> DeletePermissionPolicyAsync(int id, Guid actorUserId);
+
+        Task<IEnumerable<Guid>> GetAccessibleNoteIdsAsync(Guid userId);
     }
 }

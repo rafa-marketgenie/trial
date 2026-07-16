@@ -49,6 +49,7 @@ namespace trial.Services
 
         public async Task<IReadOnlyCollection<NoteResponseDto>> SearchNotesAsync(string? phrase)
         {
+            // TODO search in only accessible notes?
             if(string.IsNullOrWhiteSpace(phrase))
             {
                 return new List<NoteResponseDto>();
@@ -111,7 +112,7 @@ namespace trial.Services
             if (note == null) return false;
 
             // TODO implement permission check
-            if (actorUserId != note.CreatedByUserId) return false;
+            // if (actorUserId != note.CreatedByUserId) return false;
 
 
             note.Title = request.Title ?? note.Title;
@@ -134,8 +135,14 @@ namespace trial.Services
             return true;
         }
 
-        public async Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(Guid userId)
+        public async Task<IReadOnlyCollection<NoteResponseDto>> GetNotesByCreatedByUserIdAsync(Guid userId, Guid actorUserId)
         {
+            if (userId != actorUserId)
+            {
+                // TODO maybe get accessible notes of other users if permission given
+                return new List<NoteResponseDto>();
+            }
+
             var notes = await _noteRepository.GetNotesByCreatedByUserIdAsync(userId);
             return notes.Select(n => new NoteResponseDto
             {

@@ -33,6 +33,12 @@ namespace trial.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<NoteResponseDto>> GetById(Guid id)
         {
+            bool hasPermission = User.CheckNotePermission(id);
+            if (!hasPermission)
+            {
+                return Forbid();
+            }
+
             var note = await _noteService.GetNoteByIdAsync(id);
             if (note == null) return NotFound();
             return Ok(note);
@@ -41,7 +47,9 @@ namespace trial.Controllers
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IReadOnlyCollection<NoteResponseDto>>> GetByUserId(Guid userId)
         {
-            var notes = await _noteService.GetNotesByCreatedByUserIdAsync(userId);
+            var actorUserId = User.GetUserId();
+
+            var notes = await _noteService.GetNotesByCreatedByUserIdAsync(userId, actorUserId);
             return Ok(notes);
         }
 
